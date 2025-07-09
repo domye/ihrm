@@ -6,10 +6,10 @@
       <el-card shadow="never" class="login-card">
         <!--登录表单-->
         <el-form ref="form" :model="loginForm" :rules="loginRules">
-          <el-form-item prop="username">
+          <el-form-item prop="mobile">
             <el-input
               placeholder="请输入用户名"
-              v-model="loginForm.username"
+              v-model="loginForm.mobile"
             ></el-input>
           </el-form-item>
           <el-form-item prop="password">
@@ -34,6 +34,14 @@
               >登录</el-button
             >
           </el-form-item>
+          <el-button
+            style="width: 350px; margin-left: 20px"
+            type="text"
+            size="large"
+            round
+            @click="testajax"
+            >测试ajax</el-button
+          >
         </el-form>
       </el-card>
     </div>
@@ -41,19 +49,19 @@
 </template>
 <script>
 import { login } from "@/api/user";
-
+import Request from "@/utils/request";
 export default {
   name: "Login",
 
   data() {
     return {
       loginForm: {
-        username: "",
+        mobile: "",
         password: "",
         isagree: false,
       },
       loginRules: {
-        username: [
+        mobile: [
           {
             required: true,
             message: "请输入用户名",
@@ -96,15 +104,18 @@ export default {
     login() {
       this.$refs.form.validate((isok) => {
         if (isok) {
-          login(this.loginForm).then((res) => {
-            if (res.code === 200) {
-              this.$message.success("登录成功");
-              this.$router.push("/home");
-            } else {
-              this.$message.error(res.message);
-            }
-          });
+          this.$store.dispatch("user/login", this.loginForm);
         }
+      });
+    },
+    testajax() {
+      Request({
+        url: "/sys/login",
+        method: "post",
+        data: {
+          mobile: "13800000002",
+          password: "hm#qd@22!",
+        },
       });
     },
   },
