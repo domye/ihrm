@@ -37,34 +37,26 @@
 </template>
 
 <script>
+import { getDepartment } from "@/api/department";
 export default {
   name: "Department",
   data() {
     return {
-      depts: [
-        {
-          name: "传智教育",
-          managerName: "李经理",
-          children: [
-            { name: "总裁办", managerName: "李经理" },
-            { name: "行政部", managerName: "李经理" },
-            {
-              name: "人事部",
-              managerName: "李经理",
-              children: [
-                { name: "财务核算部", managerName: "李经理" },
-                { name: "税务管理部", managerName: "李经理" },
-                { name: "薪资管理部", managerName: "李经理" },
-              ],
-            },
-          ],
-        },
-      ],
+      depts: [],
       defaultProps: {
         children: "children",
         label: "name",
       },
     };
+  },
+  created() {
+    this.getDepartment();
+  },
+  methods: {
+    async getDepartment() {
+      const result = await getDepartment();
+      this.depts = transListToTreeData(result, 0);
+    },
   },
 };
 </script>

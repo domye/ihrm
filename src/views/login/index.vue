@@ -63,8 +63,8 @@ export default {
           },
           {
             min: 6,
-            max: 16,
-            message: "密码长度应该为6-16位之间",
+            max: 40,
+            message: "密码长度应该为6-40位之间",
             trigger: "blur",
           },
         ],
